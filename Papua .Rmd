@@ -1,0 +1,42 @@
+---
+title: "Ejercicio grupal"
+author: "caro"
+date: "29 de abril de 2021"
+output: html_document
+---
+# Cargar datos de Pingus 
+```{r cargar datos, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(datos)
+Pingus<-datos::pinguinos
+```
+
+# Crear el objeto Papúa para filtrar la especie 
+```{r, echo=FALSE}
+Papúa<-Pingus%>%
+filter(especie=='Papúa')
+```
+
+# Verificar que Papúa es un data frame
+```{r, echo=FALSE}
+class(Papúa)
+```
+# Crear el modelo lineal de la relacion entre masa corporal y longitud de aleta
+```{r, echo=FALSE}
+modelo_lineal <- lm (data=Papúa,
+                       masa_corporal_g ~ largo_aleta_mm)
+```
+
+# Mostrar el resultado en tabla del modelo lineal
+```{r, echo=FALSE}
+Tabla<- broom:: tidy(modelo_lineal)
+```
+
+# Graficar el modelo lineal del objeto Papúa
+```{r, echo=FALSE, fig.height=5, warning=FALSE}
+ggplot(Papúa,
+       aes(x=largo_aleta_mm, 
+       y=masa_corporal_g)) +
+       geom_point(aes(color =especie))+
+       geom_smooth(method="lm")
+```
